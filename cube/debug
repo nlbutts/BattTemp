@@ -1,0 +1,1 @@
+../cxx/linux/bin/arm-none-eabi-gdb -tui -x gdbinit build/arm/bin/application_debug.elf
