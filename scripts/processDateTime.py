@@ -13,7 +13,9 @@ def plotData(title, data):
     formattedTime = []
     for t in tData:
         gmt = time.gmtime(t)
-        formattedTime.append(time.strftime("%a, %d %b %Y %H:%M:%S", gmt))
+        s = time.strftime("%a, %d %b %Y %H:%M:%S", gmt)
+        formattedTime.append(s)
+        print('{0} : {1}'.format(s, temp[i]))
         i += 1
 
     plt.plot(temp)

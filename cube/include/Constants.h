@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define VERSION "1.1.0.116"
+#define VERSION "1.2.0"
 
 #define EEPROM_SIZE_IN_BYTES        8192
 
