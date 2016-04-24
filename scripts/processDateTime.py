@@ -10,10 +10,10 @@ def plotData(title, data):
     tData = data[:,0]
 
     i = 0
-    formattedTime = range(len(tData))
+    formattedTime = []
     for t in tData:
         gmt = time.gmtime(t)
-        formattedTime[i] = time.strftime("%a, %d %b %Y %H:%M:%S", gmt)
+        formattedTime.append(time.strftime("%a, %d %b %Y %H:%M:%S", gmt))
         i += 1
 
     plt.plot(temp)
@@ -24,6 +24,9 @@ def plotData(title, data):
     plt.savefig(title + ".png")
     plt.show()
 
+if sys.argv != 2:
+    print("Syntax: python <this file> <file to parse> <title>")
+
 print("Processing file " + sys.argv[1])
-data = np.loadtxt(sys.argv[1], delimiter='-')
-plotData(sys.argv[1], data)
+data = np.loadtxt(sys.argv[1], delimiter=',')
+plotData(sys.argv[2], data)

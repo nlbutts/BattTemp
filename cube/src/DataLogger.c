@@ -26,23 +26,34 @@ void DataLogger_storeTemp(uint32_t currentTime, int32_t temp)
     buf[5] = (temp >>  8) & 0xFF;
     buf[6] = (temp >> 16) & 0xFF;
     buf[7] = (temp >> 24) & 0xFF;
-    for (int i = 0; i < 8; ++i)
+    if (EEPROMAddress <= (EEPROM_SIZE_IN_BYTES - RECORD_LENGTH))
     {
-        i2c_writeByte(EEPROMAddress, CurrentLocation, buf[i]);
-        HAL_Delay(10);
-        CurrentLocation++;
+        for (int i = 0; i < 8; ++i)
+        {
+            i2c_writeByte(EEPROMAddress, CurrentLocation, buf[i]);
+            HAL_Delay(10);
+            CurrentLocation++;
+        }
     }
 }
 
 void DataLogger_readTemp(uint32_t location, uint32_t * recordTime, int32_t *temp)
 {
-    uint8_t eepData[RecordLength];
-    uint32_t address = location * RecordLength;
-    uint8_t readLen = i2c_readData(EEPROMAddress, address, eepData, RecordLength);
-    if (readLen == RecordLength)
+    if ((location * RECORD_LENGTH) <= EEPROM_SIZE_IN_BYTES)
     {
-        *recordTime = bytesToWord(eepData);
-        *temp       = bytesToWord(eepData + 4);
+        uint8_t eepData[RecordLength];
+        uint32_t address = location * RecordLength;
+        uint8_t readLen = i2c_readData(EEPROMAddress, address, eepData, RecordLength);
+        if (readLen == RecordLength)
+        {
+            *recordTime = bytesToWord(eepData);
+            *temp       = bytesToWord(eepData + 4);
+        }
+    }
+    else
+    {
+        *recordTime = 0;
+        *temp       = 0;
     }
 }
 

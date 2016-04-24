@@ -21,7 +21,6 @@
 #include "string.h"
 #include "usbd_cdc_if.h"
 #include "RTCC.h"
-#include "Version.h"
 #include "AnalogVoltage.h"
 #include "Thermistor.h"
 #include "i2c.h"
@@ -298,7 +297,7 @@ static void dumpStoredData()
     for (uint16_t i = 0; i < readLen; ++i)
     {
         DataLogger_readTemp(i, &recordTime, &temp);
-        int len = ee_printf(_txBuf, "%u-%d\r", recordTime, temp);
+        int len = ee_printf(_txBuf, "%u,%d\r", recordTime, temp);
         _txBuf[len] = '\0';
         CDC_Transmit_FS((uint8_t*)_txBuf, strlen(_txBuf));
         HAL_Delay(10);
